@@ -1,0 +1,21 @@
+/*
+1) Creation d'un projet node
+mkdir mon-projet-node
+cd mon-projet-node
+npm init -y
+npm install express
+touch index.js
+//Avec postman tester un get: http://localhost:3000/ -> Vérifier le retour helloworld
+
+2) Installation postgresql
+3) Installation pgAdmin
+4) Mise en place automatisation création de la db avec node js
+npm install sequelize sequelize-cli pg pg-hstore
+npx sequelize-cli init //Cela créera un répertoire config, models, migrations et seeders.
+// Créer un model pour un User
+npx sequelize-cli model:generate --name User --attributes firstName:string,lastName:string,email:string
+//Exécutez la migration pour créer la table dans la base de données :
+npx sequelize-cli db:migrate
+
+
+*/
