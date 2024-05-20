@@ -8,7 +8,12 @@ const sequelize = new Sequelize('ekisign', 'postgres', 'root', {
   dialect: 'postgres'
 });
 
+const Project = require('./models/project')(sequelize, DataTypes);
+const Room = require('./models/room')(sequelize, DataTypes);
+const Bench = require('./models/bench')(sequelize, DataTypes);
 const User = require('./models/user')(sequelize, DataTypes);
+const Equipment = require('./models/equipment')(sequelize, DataTypes);
+
 
 sequelize.authenticate()
   .then(() => {
