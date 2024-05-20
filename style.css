@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* Initialisation du projet */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Declaration des variables */
+html {
+  --bg-color: #e9f5db;
+  --lightest-green-color: #cfe1b9;
+  --light-green-color: #b5c99a;
+  --middle-green-color: #97a97c;
+  --dark-light-green-color: #87986a;
+  --dark-green-color: #718355;
+  --text-color: #000;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+header {
+  height: 4rem;
+  background-color: var(--lightest-green-color);
+  padding: 0 2rem;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  position: sticky;
+  top: 0;
+}
+
+header nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 3rem;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  color: var(--dark-green-color);
+}
+
+header button {
+  background-color: var(--dark-light-green-color);
+  color: var(--text-color);
+  border: none;
+  padding: 9px 16px;
+  border-radius: 0.4rem;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+header button:hover {
+  background-color: var(--dark-green-color);
+}
+
+/* Mise en forme de la section main */
+main {
+  padding: 5rem;
+}
+
+#hero {
+  width: 70%;
+  height: 30vh;
+  border-radius: 5px;
+  padding: 1rem;
+  background: linear-gradient(
+    90deg,
+    var(--lightest-green-color) 15%,
+    var(--light-green-color) 100%
+  );
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#hero .gauche h1 {
+  font-size: 3rem;
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+#hero .gauche p {
+  font-size: clamp(1rem, 2vw);
+  color: var(--text-color);
+  font-weight: normal;
+  margin: 5px 0 0 0;
+}
