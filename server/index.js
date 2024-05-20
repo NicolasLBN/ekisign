@@ -1,12 +1,19 @@
 const express = require('express');
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 const app = express();
 const port = 3000;
 
-/*const sequelize = new Sequelize('ekisign', 'ekisign', 'ekisign', {
+const sequelize = new Sequelize('ekisign', 'postgres', 'root', {
   host: 'localhost',
   dialect: 'postgres'
 });
+
+const Project = require('./models/project')(sequelize, DataTypes);
+const Room = require('./models/room')(sequelize, DataTypes);
+const Bench = require('./models/bench')(sequelize, DataTypes);
+const User = require('./models/user')(sequelize, DataTypes);
+const Equipment = require('./models/equipment')(sequelize, DataTypes);
+
 
 sequelize.authenticate()
   .then(() => {
@@ -20,7 +27,7 @@ sequelize.authenticate()
 sequelize.sync()
   .then(() => {
     console.log('Database & tables created!');
-  });*/
+  });
 
 app.get('/test', (req, res) => {
   res.send('Hello world!');
