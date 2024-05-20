@@ -3,7 +3,7 @@ const { Sequelize } = require('sequelize');
 const app = express();
 const port = 3000;
 
-const sequelize = new Sequelize('nom_de_la_base_de_donnees', 'votre_utilisateur', 'votre_mot_de_passe', {
+/*const sequelize = new Sequelize('ekisign', 'ekisign', 'ekisign', {
   host: 'localhost',
   dialect: 'postgres'
 });
@@ -20,11 +20,14 @@ sequelize.authenticate()
 sequelize.sync()
   .then(() => {
     console.log('Database & tables created!');
-  });
+  });*/
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get('/test', (req, res) => {
+  res.send('Hello world!');
+
 });
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
