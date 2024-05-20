@@ -1,22 +1,22 @@
 {
   "development": {
-    "username": "equisign",
-    "password": "equisign",
-    "database": "equisign",
+    "username": "ekisign",
+    "password": "ekisign",
+    "database": "ekisign",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
-    "username": "equisign",
-    "password": "equisign",
-    "database": "equisign",
+    "username": "ekisign",
+    "password": "ekisign",
+    "database": "ekisign",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "equisign",
-    "password": "equisign",
-    "database": "equisign",
+    "username": "ekisign",
+    "password": "ekisign",
+    "database": "ekisign",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }
