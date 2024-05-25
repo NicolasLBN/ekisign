@@ -83,13 +83,30 @@ app.get('/equipements', async (req, res) => {
 });
 
 
-
 async function populateDb() {
-  const room = await Room.create({ name: 'Room 1' });
-  Project.create({ name: 'Project 1' });
-  Bench.create({ name: 'Bench 1', RoomId: room.id });
-  User.create({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
-  Equipment.create({ name: 'Equipment 1' });
+  let room;
+  const existingRoom = await Room.findOne({ where: { name: 'Room 1' } });
+  if (!existingRoom) {
+    const room = await Room.create({ name: 'Room 1' });
+  }
+  if (room) {
+    const existingBench = await Bench.findOne({ where: { name: 'Bench 1', RoomId: room.id } });
+    if (!existingBench) {
+      await Bench.create({ name: 'Bench 1', RoomId: room.id });
+    }
+  const existingProject = await Project.findOne({ where: { name: 'Project 1' } });
+  if (!existingProject) {
+    await Project.create({ name: 'Project 1' });
+  }
+  const existingUser = await User.findOne({ where: { email: 'john.doe@example.com' } });
+  if (!existingUser) {
+    await User.create({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
+  }
+  const existingEquipment = await Equipment.findOne({ where: { name: 'Equipment 1' } });
+  if (!existingEquipment) {
+    await Equipment.create({ name: 'Equipment 1' });
+  }
+}
 }
 
 app.listen(port, () => {
