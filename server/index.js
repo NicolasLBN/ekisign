@@ -28,8 +28,8 @@ sequelize.authenticate()
 // Synchroniser tous les modèles
 sequelize.sync()
   .then(async () => {
-    //console.log('Database & tables created!');
-    populateDb()
+    console.log('Database & tables created!');
+    populateDb();
   });
 
 // Route pour récupérer tous les users
@@ -90,10 +90,17 @@ async function populateDb() {
     const room = await Room.create({ name: 'Room 1' });
   }
   if (room) {
-    const existingBench = await Bench.findOne({ where: { name: 'Bench 1', RoomId: room.id } });
+    const existingBench = await Bench.findOne({ where: { name: 'Bench 1'} });
     if (!existingBench) {
       await Bench.create({ name: 'Bench 1', RoomId: room.id });
     }
+  }
+  else{
+      const existingBench = await Bench.findOne({ where: { name: 'Bench 1'} });
+      if (!existingBench) {
+        await Bench.create({ name: 'Bench 1', RoomId: existingRoom.id });
+      }
+  }
   const existingProject = await Project.findOne({ where: { name: 'Project 1' } });
   if (!existingProject) {
     await Project.create({ name: 'Project 1' });
@@ -106,7 +113,22 @@ async function populateDb() {
   if (!existingEquipment) {
     await Equipment.create({ name: 'Equipment 1' });
   }
+
 }
+
+async function deleteAllRecords() {
+  try {
+    // Supprimer tous les enregistrements de chaque modèle
+    await Project.destroy({ where: {} });
+    await Room.destroy({ where: {} });
+    await Bench.destroy({ where: {} });
+    await User.destroy({ where: {} });
+    await Equipment.destroy({ where: {} });
+
+    console.log('All records deleted successfully.');
+  } catch (error) {
+    console.error('Error deleting records:', error);
+  }
 }
 
 app.listen(port, () => {
