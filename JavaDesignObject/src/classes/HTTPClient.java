@@ -58,7 +58,7 @@ public class HTTPClient {
 
     public static void main(String[] args) {
         ArrayList<String> pathList;
-        new HTTPClient(pathList = new ArrayList<>(Arrays.asList("benches", "projects", "rooms", "users")));
+        new HTTPClient(pathList = new ArrayList<>(Arrays.asList("benches","equipements", "projects", "rooms", "users")));
 
     }
 
