@@ -1,4 +1,4 @@
-package classes;
+package classes.client;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,21 +10,8 @@ import java.util.List;
 
 public class HTTPClient {
 
-    public HTTPClient(List<String> pathList) {
-        try {
-            pathList.forEach(path -> {
-                try {
-                    String response = getHttpResponse(path,3000);
-                    System.out.println(path +" : " + response);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+    public HTTPClient() {}
 
     // Fonction générique pour obtenir la réponse d'une requête HTTP GET
     public static String getHttpResponse(String object, int port) throws Exception {
@@ -56,10 +43,23 @@ public class HTTPClient {
         return response.toString();
     }
 
-    public static void main(String[] args) {
-        ArrayList<String> pathList;
-        new HTTPClient(pathList = new ArrayList<>(Arrays.asList("benches","equipements", "projects", "rooms", "users")));
+    public List<String> getResponses(List<String> pathList, int port) {
+        List<String> responses = new ArrayList<>();
+        pathList.forEach(path -> {
+            try {
+                String response = getHttpResponse(path, port);
+                responses.add(response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        return responses;
+    }
 
+    public static void main(String[] args) {
+        HTTPClient client = new HTTPClient();
+        List<String> responses = client.getResponses(new ArrayList<>(Arrays.asList("benches", "projects", "rooms", "users")), 3000);
+        responses.forEach(System.out::println);
     }
 
 }
