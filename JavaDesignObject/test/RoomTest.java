@@ -84,12 +84,17 @@ public class RoomTest {
 
         List<Room> rooms = Arrays.asList(room1, room2);
 
+        String jsonString = null;
         try {
-            String jsonString = Room.serialize(rooms);
+            jsonString = Room.serialize(rooms);
             System.out.println(jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        Assertions.assertEquals(jsonString.contains("Room 8"), true, "The name is the write one");
+        Assertions.assertEquals(jsonString.contains("Room 9"), true, "The name is the write one");
+        Assertions.assertEquals(jsonString.isEmpty(), false, "The string is not empty");
+
     }
 
 }
