@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import interfaces.RoomInterface;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class Room implements RoomInterface {
@@ -15,12 +16,18 @@ public class Room implements RoomInterface {
     private String name;
     private int id;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSX")
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
-    public Room() {
+    public Room() {}
+
+    public Room(String name, int id, OffsetDateTime  createdAt, OffsetDateTime updatedAt) {
+        this.name = name;
+        this.id = id;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -44,22 +51,22 @@ public class Room implements RoomInterface {
     }
 
     @Override
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime  getCreatedAt() {
         return createdAt;
     }
 
     @Override
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(OffsetDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
     @Override
-    public LocalDateTime getUpdatedAt() {
+    public OffsetDateTime  getUpdatedAt() {
         return updatedAt;
     }
 
     @Override
-    public void setUpdatedAt(LocalDateTime updatedAt) {
+    public void setUpdatedAt(OffsetDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -77,6 +84,12 @@ public class Room implements RoomInterface {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Room.class));
+    }
+
+    public static String serialize(List<Room> rooms) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.writeValueAsString(rooms);
     }
 
     public static void main(String[] args) throws JsonProcessingException {

@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HTTPClient {
 
@@ -56,10 +57,12 @@ public class HTTPClient {
         return responses;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         HTTPClient client = new HTTPClient();
-        List<String> responses = client.getResponses(new ArrayList<>(Arrays.asList("benches", "projects", "rooms", "users")), 3000);
-        responses.forEach(System.out::println);
+        String response = client.getHttpResponse("rooms", 3000);
+        System.out.println("Response user: " + response);
+        List<String> responses = client.getResponses(new ArrayList<>(Arrays.asList("rooms")), 3000);
+        System.out.println("Responses: " + responses);
     }
 
 }
