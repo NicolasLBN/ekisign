@@ -7,11 +7,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import interfaces.RoomInterface;
+import interfaces.Serializable;
+
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public class Room implements RoomInterface {
+public class Room implements RoomInterface, Serializable<Room> {
 
     private String name;
     private int id;
@@ -80,13 +82,16 @@ public class Room implements RoomInterface {
                 '}';
     }
 
-    public static List<Room> deserialize(String json) throws JsonProcessingException {
+
+    @Override
+    public  List<Room> deserialize(String json) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Room.class));
     }
 
-    public static String serialize(List<Room> rooms) throws JsonProcessingException {
+    @Override
+    public  String serialize(List<Room> rooms) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.writeValueAsString(rooms);

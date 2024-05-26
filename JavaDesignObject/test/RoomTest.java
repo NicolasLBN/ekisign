@@ -21,9 +21,10 @@ public class RoomTest {
 
     @Test
     public void testDeserializefromJson() throws JsonProcessingException {
+        Room room_inst = new Room(); // Créer une instance de Room
 
         try {
-            List<Room> rooms = Room.deserialize(jsonResponse);
+            List<Room> rooms = room_inst.deserialize(jsonResponse);
             for (Room room : rooms) {
                 System.out.println(room);
             }
@@ -49,10 +50,12 @@ public class RoomTest {
 
         System.out.println(responses);
         List<Room> rooms = new ArrayList<>();
+        Room room_inst = new Room(); // Créer une instance de Room
 
         try {
             for (String res : responses) {
-                List<Room> deserializedRooms  = Room.deserialize(res);
+
+                List<Room> deserializedRooms  = room_inst.deserialize(res);
                 rooms.addAll(deserializedRooms);
             }
         } catch (JsonProcessingException e) {
@@ -83,10 +86,11 @@ public class RoomTest {
         Room room2 = new Room("Room 9", 15, OffsetDateTime.now(), OffsetDateTime.now());
 
         List<Room> rooms = Arrays.asList(room1, room2);
+        Room room_inst = new Room(); // Créer une instance de Room
 
         String jsonString = null;
         try {
-            jsonString = Room.serialize(rooms);
+            jsonString = room_inst.serialize(rooms);
             System.out.println(jsonString);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
