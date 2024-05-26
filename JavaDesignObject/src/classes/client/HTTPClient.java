@@ -1,13 +1,15 @@
 package classes.client;
 
+import interfaces.Serializable;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HTTPClient {
 
@@ -55,6 +57,39 @@ public class HTTPClient {
             }
         });
         return responses;
+    }
+
+    public static <T extends Serializable<T>> void putHttpResponse(T object, List<T> objects, String endpoint, int port) throws Exception {
+        // Utiliser la méthode serialize de l'objet
+        String jsonObject = object.serialize(objects);
+
+        // Create the URL object
+        String strUrl = "http://localhost:" + port + "/" + endpoint;
+        URL url = new URL(strUrl);
+
+        // Open the connection
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        // Set the request method to PUT
+        con.setRequestMethod("PUT");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setDoOutput(true);
+
+        // Write the JSON to the output stream
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonObject.getBytes("utf-8");
+            os.write(input, 0, input.length);
+        }
+
+        // Get the response code
+        int responseCode = con.getResponseCode();
+        System.out.println("PUT Response Code: " + responseCode);
+
+        if (responseCode == HttpURLConnection.HTTP_OK || responseCode == HttpURLConnection.HTTP_NO_CONTENT) {
+            System.out.println("PUT request successful.");
+        } else {
+            System.out.println("PUT request failed.");
+        }
     }
 
     public static void main(String[] args) throws Exception {
