@@ -1,2 +1,9 @@
 package-lock.json
 node_modules
+# Ignorer les fichiers de classe Java générés
+JavaDesignObject/target/**/*.class
+JavaDesignObject/target/**/*.iml
+JavaDesignObject/target/**/*.xml
+JavaDesignObject/.idea/*.xml
+JavaDesignObject/.idea/.gitignore
+JavaDesignObject/target/**/*.jar
