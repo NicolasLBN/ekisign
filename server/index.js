@@ -78,6 +78,18 @@ app.get('/rooms', async (req, res) => {
     res.status(500).json({ error: 'Failed to retrieve rooms' });
   }
 })
+
+// Route pour récupérer une salle
+app.get('/rooms/:name', async (req, res) => {
+  try {
+    const roomName = req.params.name;
+    const room = await Room.findOne({ where: { name: roomName } });
+    res.json(room);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to retrieve rooms' });
+  }
+})
+
 // Route pour créer une nouvelle salle
 app.post('/rooms', async (req, res) => {
   try {
