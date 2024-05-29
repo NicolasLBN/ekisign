@@ -100,6 +100,26 @@ app.post('/rooms', async (req, res) => {
   }
 });
 
+// Route pour supprimer une salle par ID
+app.delete('/rooms/:id', async (req, res) => {
+  try {
+    const roomId = req.params.id;
+
+    // Rechercher et supprimer la salle par ID
+    const deletedRoom = await Room.destroy({ where: { id: roomId } });
+
+    if (deletedRoom) {
+      res.status(200).json({ message: 'Room deleted successfully' });
+    } else {
+      res.status(404).json({ error: 'Room not found' });
+    }
+  } catch (err) {
+    // En cas d'erreur, renvoyer une réponse avec un code d'erreur 500
+    console.error('Error while deleting a Room:', err);
+    res.status(500).json({ error: 'Error while deleting a Room' });
+  }
+});
+
 // Route pour récupérer toutes les equipements
 app.get('/equipements', async (req, res) => {
   try {
