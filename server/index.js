@@ -3,6 +3,13 @@ const { Sequelize, DataTypes } = require('sequelize');
 const app = express();
 const port = 3000;
 
+//require the body-parser nodejs module
+bodyParser = require('body-parser');
+//support parsing of application/json type post data
+app.use(bodyParser.json());
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Set up Sequelize
 const sequelize = new Sequelize('ekisign', 'postgres', 'root', {
   host: 'localhost',
@@ -69,6 +76,27 @@ app.get('/rooms', async (req, res) => {
     res.json(rooms);
   } catch (err) {
     res.status(500).json({ error: 'Failed to retrieve rooms' });
+  }
+})
+// Route pour créer une nouvelle salle
+app.post('/rooms', async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    console.log('Creating room with name:', name); // Log for debugging
+
+    // Créer une nouvelle salle dans la base de données
+    const newRoom = await Room.create({ name });
+
+    // Log pour vérifier la création
+    console.log('Room created:', newRoom);
+
+    // Envoyer la salle créée en réponse
+    res.status(201).json(newRoom);
+  } catch (err) {
+    // En cas d'erreur, renvoyer une réponse avec un code d'erreur 500
+    console.error('Error while posting a Room:', err);
+    res.status(500).json({ error: 'Error while posting a Room' });
   }
 });
 
