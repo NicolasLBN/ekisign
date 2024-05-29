@@ -1,13 +1,13 @@
 const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
+const bodyParser = require('body-parser');
+const object = ["rooms", "users", "benches", "projects", "equipments"];
+
+
 const app = express();
 const port = 3000;
 
-//require the body-parser nodejs module
-bodyParser = require('body-parser');
-//support parsing of application/json type post data
 app.use(bodyParser.json());
-//support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up Sequelize
@@ -23,14 +23,13 @@ const Bench = require('./models/bench')(sequelize, DataTypes);
 const User = require('./models/user')(sequelize, DataTypes);
 const Equipment = require('./models/equipment')(sequelize, DataTypes);
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-    return sequelize.sync();  // Synchronize all models
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+const models = {
+  rooms: Room,
+  users: User,
+  benches: Bench,
+  projects: Project,
+  equipment: Equipment
+};
 
 // Synchroniser tous les modèles
 sequelize.sync()
@@ -39,110 +38,61 @@ sequelize.sync()
     populateDb();
   });
 
-// Route pour récupérer tous les users
-app.get('/users', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve users' });
-  }
-});
+// Function to create generic CRUD routes
+const createCrudRoutes = (modelName, Model) => {
+const routeBase = `/${modelName.toLowerCase()}`;
 
-// Route pour récupérer tous les bancs
-app.get('/benches', async (req, res) => {
-  try {
-    const benches = await Bench.findAll();
-    res.json(benches);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve benches' });
-  }
-});
-
-// Route pour récupérer tous les projets
-app.get('/projects', async (req, res) => {
-  try {
-    const projects = await Project.findAll();
-    res.json(projects);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve projects' });
-  }
-});
-
-// Route pour récupérer toutes les salles
-app.get('/rooms', async (req, res) => {
-  try {
-    const rooms = await Room.findAll();
-    res.json(rooms);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve rooms' });
-  }
-})
-
-// Route pour récupérer une salle
-app.get('/rooms/:name', async (req, res) => {
-  try {
-    const roomName = req.params.name;
-    const room = await Room.findOne({ where: { name: roomName } });
-    res.json(room);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve rooms' });
-  }
-})
-
-// Route pour créer une nouvelle salle
-app.post('/rooms', async (req, res) => {
-  try {
-    const { name } = req.body;
-
-    console.log('Creating room with name:', name); // Log for debugging
-
-    // Créer une nouvelle salle dans la base de données
-    const newRoom = await Room.create({ name });
-
-    // Log pour vérifier la création
-    console.log('Room created:', newRoom);
-
-    // Envoyer la salle créée en réponse
-    res.status(201).json(newRoom);
-  } catch (err) {
-    // En cas d'erreur, renvoyer une réponse avec un code d'erreur 500
-    console.error('Error while posting a Room:', err);
-    res.status(500).json({ error: 'Error while posting a Room' });
-  }
-});
-
-// Route pour supprimer une salle par ID
-app.delete('/rooms/:id', async (req, res) => {
-  try {
-    const roomId = req.params.id;
-
-    // Rechercher et supprimer la salle par ID
-    const deletedRoom = await Room.destroy({ where: { id: roomId } });
-
-    if (deletedRoom) {
-      res.status(200).json({ message: 'Room deleted successfully' });
-    } else {
-      res.status(404).json({ error: 'Room not found' });
+  // Get all records
+  app.get(`${routeBase}`, async (req, res) => {
+    try {
+      const records = await Model.findAll();
+      res.json(records);
+    } catch (err) {
+      res.status(500).json({ error: `Failed to retrieve ${modelName}` });
     }
-  } catch (err) {
-    // En cas d'erreur, renvoyer une réponse avec un code d'erreur 500
-    console.error('Error while deleting a Room:', err);
-    res.status(500).json({ error: 'Error while deleting a Room' });
-  }
-});
+  });
 
-// Route pour récupérer toutes les equipements
-app.get('/equipements', async (req, res) => {
-  try {
-    const device = await Room.findAll();
-    res.json(device);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to retrieve rooms' });
-  }
-});
+  // Get a single record by ID
+  app.get(`${routeBase}/:name`, async (req, res) => {
+    try {
+      const record = await Model.findOne({ where: { name: req.params.name } });
+      if (record) {
+        res.json(record);
+      } else {
+        res.status(404).json({ error: `${modelName} not found` });
+      }
+    } catch (err) {
+      res.status(500).json({ error: `Failed to retrieve ${modelName}` });
+    }
+  });
 
+  // Create a new record
+  app.post(`${routeBase}`, async (req, res) => {
+    try {
+      const newRecord = await Model.create(req.body);
+      res.status(201).json(newRecord);
+    } catch (err) {
+      res.status(500).json({ error: `Failed to create ${modelName}` });
+    }
+  });
 
+  // Delete a record by ID
+  app.delete(`${routeBase}/:id`, async (req, res) => {
+    try {
+      const deleted = await Model.destroy({
+        where: { id: req.params.id }
+      });
+      if (deleted) {
+        res.status(200).json({ message: `${modelName} deleted successfully` });
+      } else {
+        res.status(404).json({ error: `${modelName} not found` });
+      }
+    } catch (err) {
+      res.status(500).json({ error: `Failed to delete ${modelName}` });
+    }
+  });
+
+};
 async function populateDb() {
   let room;
   const existingRoom = await Room.findOne({ where: { name: 'Room 1' } });
@@ -191,6 +141,11 @@ async function deleteAllRecords() {
   }
 }
 
+// Generate CRUD routes for each model
+object.forEach(modelName => {
+  createCrudRoutes(modelName, models[modelName]);
+});
+
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App listening at http://localhost:${port}`);
 });
