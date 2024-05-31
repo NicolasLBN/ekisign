@@ -53,9 +53,9 @@ const routeBase = `/${modelName.toLowerCase()}`;
   });
 
   // Get a single record by ID
-  app.get(`${routeBase}/:name`, async (req, res) => {
+  app.get(`${routeBase}/:id`, async (req, res) => {
     try {
-      const record = await Model.findOne({ where: { name: req.params.name } });
+      const record  = await Model.findByPk(req.params.id);
       if (record) {
         res.json(record);
       } else {
@@ -75,6 +75,23 @@ const routeBase = `/${modelName.toLowerCase()}`;
       res.status(500).json({ error: `Failed to create ${modelName}` });
     }
   });
+
+    // Update a record by ID
+    app.put(`${routeBase}/:id`, async (req, res) => {
+      try {
+        const [updated] = await Model.update(req.body, {
+          where: { id: req.params.id }
+        });
+        if (updated) {
+          const updatedRecord = await Model.findByPk(req.params.id);
+          res.json(updatedRecord);
+        } else {
+          res.status(404).json({ error: `${modelName} not found` });
+        }
+      } catch (err) {
+        res.status(500).json({ error: `Failed to update ${modelName}` });
+      }
+    });
 
   // Delete a record by ID
   app.delete(`${routeBase}/:id`, async (req, res) => {
