@@ -16,8 +16,10 @@ html {
   --blue-dark-color: #007fa9;
   --blue-dark-dark-color: #00334a;
   --text-color: #000;
+  --grey-border: #737373;
 }
 
+/* Body section */
 body {
   font-family: "Poppins", sans-serif;
   background-color: var(--bg-color);
@@ -33,7 +35,7 @@ header {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
+  z-index: 1000;
   position: sticky;
   top: 0;
 }
@@ -56,6 +58,7 @@ nav ul li a:hover {
   color: var(--blue-dark-color);
 }
 
+/*Login button*/
 header button {
   background-color: var(--blue-dark-dark-color);
   color: white;
@@ -72,14 +75,14 @@ header button:hover {
   background-color: var(--blue-dark-color);
 }
 
-/* Mise en forme de la section main */
+/* Main Section */
 main {
   padding: 5rem;
 }
 
 #hero {
   width: 70%;
-  height: 30vh;
+  height: auto;
   border-radius: 5px;
   padding: 1rem;
   background: linear-gradient(
@@ -91,6 +94,7 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 800;
 }
 
 #hero .gauche h1 {
@@ -124,16 +128,18 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .droite img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  position: absolute;
+  margin-left: 10px;
+  display: flex;
+  z-index: 900;
 }
 
+/* Objectives section */
 #objectives {
   margin-top: 1rem;
 }
@@ -142,12 +148,175 @@ main {
   font-size: 2rem;
   font-weight: bold;
   color: var(--text-color);
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .objectives-list {
+  height: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.objectives-list .addroom,
+.addequipment,
+.adduser {
+  flex: 1;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 5px;
+  min-height: 250px;
+  position: relative;
+}
+
+.addroom .icon,
+.addequipment .icon,
+.adduser .icon {
+  width: 50px;
+  height: 50px;
+  background-color: var(--blue-light-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  position: absolute;
+  top: -30px;
+}
+
+.objectives-list .icon i {
+  font-size: 1rem;
+  color: black;
+}
+
+.objectives-list h3 {
+  margin-top: 1rem;
+}
+
+/* Album Section */
+#album {
+  margin-top: 1rem;
+}
+
+#album h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+}
+
+#album .photo {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.photo img {
+  width: 100%;
+}
+
+/* Contact Section */
+#contact {
+  margin-top: 1rem;
+}
+
+#contact h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+#contact form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+#contact form input,
+textarea {
+  margin-bottom: 0.5rem;
+  margin-top: 0.2rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--grey-border);
+  border-radius: 2px;
+  outline: none;
+  font-size: 1rem;
+  transition: 0.3s;
+  font-family: "Poppins", sans-serif;
+}
+
+#contact form textarea {
+  height: 100px;
+}
+
+#contact form input:focus,
+textarea:focus {
+  border: 1px solid var(--blue-dark-color);
+}
+
+#contact form button {
+  background-color: var(--blue-dark-dark-color);
+  color: white;
+  font-weight: 500;
+  border: none;
+  padding: 0.5rem 0.1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#contact form button:hover {
+  background-color: var(--blue-dark-color);
+}
+
+/* Presentation Section */
+#presentation h2 {
+  margin-top: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+/* Footer Section */
+footer {
+  margin-top: 1rem;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.medias {
+  margin-left: 1rem;
+}
+
+/* Media queries */
+@media screen and (max-width: 768px) {
+  header nav {
+    display: none;
+  }
+
+  #hero {
+    flex-direction: column;
+    min-height: 100vh;
+    width: auto;
+    gap: 10px;
+  }
+
+  #hero .gauche h1 {
+    font-size: 2rem;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  #objectives h2,
+  #album h2,
+  #contact h2 {
+    font-size: 1rem;
+  }
 }
