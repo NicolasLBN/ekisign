@@ -1,7 +1,7 @@
 const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
 const bodyParser = require('body-parser');
-const object = ["rooms", "users", "benches", "projects", "equipments"];
+const object = ["rooms", "users", "benches", "projects", "equipments", "roomsProjects", "benchesEquipments"];
 
 
 const app = express();
@@ -22,21 +22,21 @@ const Room = require('./models/room')(sequelize, DataTypes);
 const Bench = require('./models/bench')(sequelize, DataTypes);
 const User = require('./models/user')(sequelize, DataTypes);
 const Equipment = require('./models/equipment')(sequelize, DataTypes);
+const RoomProject = require('./models/room_project')(sequelize, DataTypes);
+const BenchEquipment = require('./models/bench_equipment')(sequelize, DataTypes);
+const UserBench = require('./models/user_bench')(sequelize, DataTypes);
+
 
 const models = {
   rooms: Room,
   users: User,
   benches: Bench,
   projects: Project,
-  equipment: Equipment
+  equipments: Equipment,
 };
 
 // Synchroniser tous les modèles
 sequelize.sync()
-  .then(async () => {
-    console.log('Database & tables created!');
-    populateDb();
-  });
 
 // Function to create generic CRUD routes
 const createCrudRoutes = (modelName, Model) => {
@@ -110,7 +110,7 @@ const routeBase = `/${modelName.toLowerCase()}`;
   });
 
 };
-async function populateDb() {
+/*async function populateDb() {
   let room;
   const existingRoom = await Room.findOne({ where: { name: 'Room 1' } });
   if (!existingRoom) {
@@ -141,7 +141,7 @@ async function populateDb() {
     await Equipment.create({ name: 'Equipment 1' });
   }
 
-}
+}*/
 
 async function deleteAllRecords() {
   try {
