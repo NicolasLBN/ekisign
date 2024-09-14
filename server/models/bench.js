@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Bench',
+    timestamps: true,
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt' 
   });
   return Bench;
 };

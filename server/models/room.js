@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Room',
+    timestamps: true,
+    createdAt: 'createdAt', 
+    updatedAt: 'updatedAt'  
   });
   return Room;
 };
