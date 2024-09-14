@@ -1,6 +1,7 @@
 const express = require('express');
 const { Sequelize, DataTypes } = require('sequelize');
 const bodyParser = require('body-parser');
+const equipment_users = require('./models/equipment_users');
 const object = ["rooms", "users", "benches", "projects", "equipments", "roomsProjects", "benchesEquipments"];
 
 
@@ -22,6 +23,9 @@ const Room = require('./models/room')(sequelize, DataTypes);
 const Bench = require('./models/bench')(sequelize, DataTypes);
 const User = require('./models/user')(sequelize, DataTypes);
 const Equipment = require('./models/equipment')(sequelize, DataTypes);
+const EquipmentUsers = require('./models/equipment_users')(sequelize, DataTypes);
+const ProjectUsers = require('./models/project_user')(sequelize, DataTypes);
+
 const RoomProject = require('./models/room_project')(sequelize, DataTypes);
 const BenchEquipment = require('./models/bench_equipment')(sequelize, DataTypes);
 const UserBench = require('./models/user_bench')(sequelize, DataTypes);
@@ -33,6 +37,11 @@ const models = {
   benches: Bench,
   projects: Project,
   equipments: Equipment,
+  equipmentsUsers: EquipmentUsers,
+  projectsUsers: ProjectUsers,
+  roomsProject: RoomProject,
+  benchesEquipment: BenchEquipment,
+  usersBenches: UserBench,
 };
 
 // Synchroniser tous les modèles
@@ -110,38 +119,6 @@ const routeBase = `/${modelName.toLowerCase()}`;
   });
 
 };
-/*async function populateDb() {
-  let room;
-  const existingRoom = await Room.findOne({ where: { name: 'Room 1' } });
-  if (!existingRoom) {
-    const room = await Room.create({ name: 'Room 1' });
-  }
-  if (room) {
-    const existingBench = await Bench.findOne({ where: { name: 'Bench 1'} });
-    if (!existingBench) {
-      await Bench.create({ name: 'Bench 1', RoomId: room.id });
-    }
-  }
-  else{
-      const existingBench = await Bench.findOne({ where: { name: 'Bench 1'} });
-      if (!existingBench) {
-        await Bench.create({ name: 'Bench 1', RoomId: existingRoom.id });
-      }
-  }
-  const existingProject = await Project.findOne({ where: { name: 'Project 1' } });
-  if (!existingProject) {
-    await Project.create({ name: 'Project 1' });
-  }
-  const existingUser = await User.findOne({ where: { email: 'john.doe@example.com' } });
-  if (!existingUser) {
-    await User.create({ firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com' });
-  }
-  const existingEquipment = await Equipment.findOne({ where: { name: 'Equipment 1' } });
-  if (!existingEquipment) {
-    await Equipment.create({ name: 'Equipment 1' });
-  }
-
-}*/
 
 async function deleteAllRecords() {
   try {
