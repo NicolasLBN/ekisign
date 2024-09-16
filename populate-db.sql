@@ -10,7 +10,7 @@ INSERT INTO "Benches" (id, name, "roomId", "createdAt", "updatedAt") VALUES
 (3, 'Banc 3', 2, NOW(), NOW());
 
 -- Insérer des données dans la table 'Equipments'
-INSERT INTO "Equipments" (id, name, "createdAt", "updatedAt") VALUES 
+INSERT INTO "Equipment" (id, name, "createdAt", "updatedAt") VALUES 
 (1, 'Équipement 1', NOW(), NOW()),
 (2, 'Équipement 2', NOW(), NOW()),
 (3, 'Équipement 3', NOW(), NOW());
