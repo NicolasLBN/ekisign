@@ -3,8 +3,7 @@ const cors = require('cors');
 
 const { Sequelize, DataTypes } = require('sequelize');
 const bodyParser = require('body-parser');
-const equipment_users = require('./models/equipment_users');
-const object = ["rooms", "users", "benches", "projects", "equipments", "roomsProjects", "benchesEquipments"];
+const object = ["rooms", "roomsProjects", "users", "usersBenches", "benches", "projects", "projectsUsers", "equipments", "equipmentsUsers", "benchesEquipments"];
 
 
 const app = express();
@@ -21,6 +20,7 @@ const sequelize = new Sequelize('ekisign', 'postgres', 'root', {
   dialect: 'postgres'
 });
 
+
 // Import models
 const Project = require('./models/project')(sequelize, DataTypes);
 const Room = require('./models/room')(sequelize, DataTypes);
@@ -29,7 +29,6 @@ const User = require('./models/user')(sequelize, DataTypes);
 const Equipment = require('./models/equipment')(sequelize, DataTypes);
 const EquipmentUsers = require('./models/equipment_users')(sequelize, DataTypes);
 const ProjectUsers = require('./models/project_user')(sequelize, DataTypes);
-
 const RoomProject = require('./models/room_project')(sequelize, DataTypes);
 const BenchEquipment = require('./models/bench_equipment')(sequelize, DataTypes);
 const UserBench = require('./models/user_bench')(sequelize, DataTypes);
