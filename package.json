@@ -1,0 +1,20 @@
+{
+  "name": "ekisign",
+  "version": "1.0.0",
+  "description": "/*\r 1) Creation d'un projet node\r mkdir mon-projet-node\r cd mon-projet-node\r npm init -y\r npm install express\r touch index.js\r //Avec postman tester un get: http://localhost:3000/ -> Vérifier le retour helloworld",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ClementACD/ekisign.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ClementACD/ekisign/issues"
+  },
+  "homepage": "https://github.com/ClementACD/ekisign#readme"
+}
