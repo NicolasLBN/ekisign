@@ -1,4 +1,3 @@
-// models/room.js
 'use strict';
 const { Model } = require('sequelize');
 
@@ -6,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   class Room extends Model {
     static associate(models) {
       Room.belongsToMany(models.Project, { through: 'RoomProjects' });
-      Room.hasMany(models.Bench);
+      Room.hasMany(models.Bench, { foreignKey: 'roomId' });
     }
   }
   Room.init({
@@ -14,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Room',
+    timestamps: true,
+    createdAt: 'createdAt', 
+    updatedAt: 'updatedAt'  
   });
   return Room;
 };
