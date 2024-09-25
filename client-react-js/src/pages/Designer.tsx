@@ -1,26 +1,34 @@
 import Navbar from "../components/Navbar"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {getAllBenches} from "../services/api"
+import {getAllRooms} from "../services/api"
+import ProjectComponent from "../components/business-objects/ProjectComponent";
+import ProjectContainer from "../containers/business-objects/ProjectContainer";
 
 export default function Designer() {
-useEffect(() => {
-    const fetchData = async () => {
-        try {
-            const benches = await getAllBenches()
-            console.log('+++BENCHES+++: ', benches)
-        } catch (error) {
-            console.error('Error fetching benches:', error);
-        }
-    };
 
-    fetchData();
-}, []);
+    const [projects, setProjects] = useState<ProjectComponent[]>([]);
 
-  return (
-    <div>
-        <Navbar/>
-        <div>DESIGNER</div>
 
-    </div>
-  )
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getAllRooms()
+                setProjects(response)
+            } catch (error) {
+                console.error('Error fetching benches:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div>
+            <Navbar/>
+            <div>
+                <ProjectContainer/>
+            </div>
+        </div>
+    )
 }

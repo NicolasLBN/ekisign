@@ -20,4 +20,12 @@ async function getAllBenches(){
     return await fetchApi(apiUrl + 'benches')
 }
 
-export { getAllBenches }
+async function getAllRooms(){
+  return await fetchApi(apiUrl + 'rooms')
+}
+
+async function getAllProjects(){
+  return await fetchApi(apiUrl + 'projects')
+}
+
+export { getAllBenches, getAllRooms, getAllProjects }

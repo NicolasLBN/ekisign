@@ -9,7 +9,7 @@ const linkStyle = {
     color: "#050000fa"
   }
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   return (
     <header className="header">
       <h2 id="ekisign">Ekisign</h2>
