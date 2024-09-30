@@ -33,9 +33,7 @@ foo@bar:~$ cd ../server
 foo@bar:~$ npm start
 foo@bar:~$ cd ../client-react-js
 foo@bar:~$ npm start
+```
 
 //Populate db
 Copy/paste populate-db.sql
-
-
-```
