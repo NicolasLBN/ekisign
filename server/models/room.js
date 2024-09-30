@@ -4,8 +4,12 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Room extends Model {
     static associate(models) {
-      Room.belongsToMany(models.Project, { through: 'RoomProjects' });
-      Room.hasMany(models.Bench, { foreignKey: 'roomId' });
+      Room.belongsToMany(models.Project, {
+        through: models.RoomProjects, // Table de jonction
+        foreignKey: 'roomId', // Clé étrangère sur RoomProjects
+        otherKey: 'projectId' // Autre clé étrangère
+      });
+
     }
   }
   Room.init({

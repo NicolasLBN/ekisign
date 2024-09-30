@@ -4,7 +4,11 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
     static associate(models) {
-      Project.belongsToMany(models.Room, { through: 'RoomProjects' });
+      Project.belongsToMany(models.Room, {
+        through: models.RoomProjects, // Table de jonction
+        foreignKey: 'projectId', // Clé étrangère sur RoomProjects
+        otherKey: 'roomId' // Autre clé étrangère
+      });
       Project.belongsToMany(models.User, { through: 'ProjectUsers' });
     }
   }
