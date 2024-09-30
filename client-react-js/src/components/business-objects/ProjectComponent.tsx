@@ -24,7 +24,7 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ project }) => {
         <p>Créé le: {new Date(project.createdAt).toLocaleString()}</p>
         <p>Dernière mise à jour: {new Date(project.updatedAt).toLocaleString()}</p>
         <div>{project.rooms.map(room => (
-          <RoomContainer room={{
+          <RoomContainer key={room.id} room={{
             id: room.id,
             name: room.name,
             createdAt: room.createdAt,
