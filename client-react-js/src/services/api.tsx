@@ -28,4 +28,9 @@ async function getAllProjects(){
   return await fetchApi(apiUrl + 'projects')
 }
 
-export { getAllBenches, getAllRooms, getAllProjects }
+async function getAllRoomsByProjectId(projectId: number){
+  return await fetchApi(apiUrl + 'roomsByProjectId/' + projectId)
+}
+
+
+export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId }

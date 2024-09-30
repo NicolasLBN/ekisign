@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import RoomComponent, { RoomComponentProps } from '../../components/business-objects/RoomComponent';
-import ProjectComponent from '../../components/business-objects/ProjectComponent';
 
   const RoomContainer: React.FC<RoomComponentProps> = ({ room }) => {
 
-    const [projects, setProjects] = useState<ProjectComponent[]>([]);
 
     return (
-      <div>
+      <div className="roomContainer">
         <RoomComponent room={{
-                id: 0,
-                name: '',
-                createdAt: '',
-                updatedAt: '',
+                id: room.id,
+                name: room.name,
+                createdAt: room.createdAt,
+                updatedAt: room.updatedAt,
             }}/>
       </div>
     );

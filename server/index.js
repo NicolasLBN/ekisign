@@ -47,6 +47,7 @@ const models = {
   usersBenches: UserBench,
 };
 
+
 // Synchroniser tous les modèles
 sequelize.sync()
 
@@ -77,6 +78,7 @@ const routeBase = `/${modelName.toLowerCase()}`;
       res.status(500).json({ error: `Failed to retrieve ${modelName}` });
     }
   });
+
 
   // Create a new record
   app.post(`${routeBase}`, async (req, res) => {
@@ -125,7 +127,7 @@ const routeBase = `/${modelName.toLowerCase()}`;
 
 async function deleteAllRecords() {
   try {
-    // Supprimer tous les enregistrements de chaque modèle
+    // Delete all reocrds
     await Project.destroy({ where: {} });
     await Room.destroy({ where: {} });
     await Bench.destroy({ where: {} });
@@ -142,6 +144,37 @@ async function deleteAllRecords() {
 object.forEach(modelName => {
   createCrudRoutes(modelName, models[modelName]);
 });
+
+  // Get roomsByProjectId
+  app.get(`/roomsByProjectId/:id`, async (req, res) => {
+    try {
+      const projectId = req.params.id;
+
+    // Get all rooms associate to projectId
+    const [rooms] = await sequelize.query(
+      
+      `SELECT r.*
+      FROM public."Rooms" r
+      JOIN public."RoomProjects" rp ON r.id = rp."roomId"
+      JOIN public."Projects" p ON p.id = rp."projectId"
+      WHERE p.id = :projectId`,
+
+      {
+        // Replace projectId
+        replacements:  {projectId} ,
+      }
+    );
+
+    if (rooms.length) {
+      // Return all associate rooms to the projects
+      res.json(rooms);
+    } else {
+      res.status(404).json({ error: `No rooms found for this project` });
+    }
+  } catch (err) {
+      res.status(500).json({ error: `Failed to retrieve RoomProject` });
+    }
+  });
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);

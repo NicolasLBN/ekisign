@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RoomComponent from './RoomComponent';
+import RoomContainer from '../../containers/business-objects/RoomContainer';
+
+import '../../styles/ProjectComponent.css'
 
 type ProjectComponent = {
   id: number;
@@ -16,10 +19,18 @@ export interface ProjectComponentProps {
 const ProjectComponent: React.FC<ProjectComponentProps> = ({ project }) => {
 
     return (
-        <div style={{ marginTop: '20px', padding: '10px', border: '1px solid #ccc' }}>
-        <h2>Projet: {project.name}</h2>
+        <div className="projectContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
+        <h1>Projet: {project.name}</h1>
         <p>Créé le: {new Date(project.createdAt).toLocaleString()}</p>
         <p>Dernière mise à jour: {new Date(project.updatedAt).toLocaleString()}</p>
+        <div>{project.rooms.map(room => (
+          <RoomContainer room={{
+            id: room.id,
+            name: room.name,
+            createdAt: room.createdAt,
+            updatedAt: room.updatedAt
+          }}/>
+        ))}</div>
         </div>
     );
 };

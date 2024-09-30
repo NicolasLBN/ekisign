@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import ProjectComponent from '../../components/business-objects/ProjectComponent';
-import { getAllProjects } from '../../services/api';
+import { getAllProjects, getAllRoomsByProjectId } from '../../services/api';
   
   const ProjectContainer: React.FC = () => {
 
-    const [projects, setProjects] = useState<ProjectComponent[]>([]);
+    let [projects, setProjects] = useState<ProjectComponent[]>([]);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await getAllProjects()
-                setProjects(response)
+              let projects = await getAllProjects();
+
+              // Using Promise.all to resolve all the room promises before updating the state
+              let updatedProjects = await Promise.all(
+                projects.map(async (proj: { rooms: any; id: number; }) => {
+                  let rooms = await getAllRoomsByProjectId(proj.id);
+                  // Add rooms to project
+                  return { ...proj, rooms };
+                })
+              );
+                setProjects(updatedProjects)
             } catch (error) {
                 console.error('Error fetching benches:', error);
             }
@@ -26,7 +36,7 @@ import { getAllProjects } from '../../services/api';
             name: project.name,
             createdAt: project.createdAt,
             updatedAt: project.updatedAt,
-            rooms: []
+            rooms: project.rooms
         }} />
       )
       )}
