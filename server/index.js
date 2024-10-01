@@ -176,6 +176,149 @@ object.forEach(modelName => {
     }
   });
 
+/**
+ * GET /arborescence - Retrieves a tree structure of rooms, projects, users, benches, and equipment.
+ * 
+ * This endpoint fetches all rooms from the database and for each room, it retrieves the associated projects. 
+ * Then, for each project, it fetches the associated users, and for each user, it retrieves their benches and equipment.
+ * The response is a nested structure where each room contains its associated projects, 
+ * each project contains its users, and each user contains their benches and equipment.
+ *
+ * @async
+ * @function
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} Responds with JSON containing the tree structure of rooms, projects, users, benches, and equipment.
+ * 
+ * @throws {Object} 500 - If any errors occur during the database retrieval or processing of data, responds with a 500 status code and an error message.
+ * 
+ * @example
+ * // Example response structure:
+ * [
+ *   {
+ *     "id": 1,
+ *     "name": "Room A",
+ *     "updatedProjects": [
+ *       {
+ *         "id": 101,
+ *         "name": "Project 1",
+ *         "updatedUsers": [
+ *           {
+ *             "id": 1001,
+ *             "name": "User 1",
+ *             "benches": [ array of benches ],
+ *             "equipments": [ array of equipments  ]
+ *           }
+ *         ]
+ *       }
+ *     ]
+ *   }
+ * ]
+ */    app.get(`/arborescence`, async (req, res) => {
+      try {
+        let rooms = await Room.findAll()
+
+        let updatedRooms = await Promise.all(
+          rooms.map(async (room) => {
+            let projects = await getProjectsByRoomId(room.id);
+            projects = await Promise.all(
+              projects.map(async(project) => {
+                let users = await getUsersByProjectId(project.id)
+                users = await Promise.all(
+                  users.map(async(user) => {
+                    let benches = await getBenchesByUserId(user.id)
+                    let equipments = await getEquipmentByUserId(user.id)
+                    return {...user, benches, equipments}
+                  })
+                )
+                return { ...project, users };
+              })
+            )
+            return { ...room.dataValues, projects };
+          })
+        )
+
+        res.json(updatedRooms);
+
+    } catch (err) {
+        res.status(500).json({ error: `Failed to retrieve arbo` });
+      }
+    });
+
+    async function getProjectsByRoomId(roomId) {
+      const [projects] = await sequelize.query(
+      
+        `SELECT p.*
+          FROM public."Projects" p
+          JOIN public."RoomProjects" rp ON p.id = rp."projectId"
+          JOIN public."Rooms" r ON r.id = rp."roomId"
+          WHERE r.id = :roomId;`,
+  
+        {
+          // Replace projectId
+          replacements:  {roomId} ,
+        }
+      );
+      return projects
+    }
+
+    
+    async function getUsersByProjectId(projectId) {
+      const [users] = await sequelize.query(
+      
+        `SELECT u.*
+          FROM public."Users" u
+          JOIN public."ProjectUsers" pu ON u.id = pu."userId"
+          JOIN public."Projects" p ON p.id = pu."projectId"
+          WHERE p.id = :projectId;
+          `,
+        {
+          // Replace projectId
+          replacements:  {projectId} ,
+        }
+      );
+      return users
+    }
+
+        
+    async function getBenchesByUserId(userId) {
+      const [benches] = await sequelize.query(
+      
+        `SELECT b.*
+          FROM public."Benches" b
+          JOIN public."UserBenches" ub ON b.id = ub."benchId"
+          JOIN public."Users" u ON u.id = ub."userId"
+          WHERE u.id = :userId;
+
+          `,
+        {
+          // Replace projectId
+          replacements:  {userId} ,
+        }
+      );
+      return benches
+    }
+
+
+    async function getEquipmentByUserId(userId) {
+      const [benches] = await sequelize.query(
+      
+        `SELECT e.*
+          FROM public."Equipment" e
+          JOIN public."EquipmentUsers" eu ON e.id = eu."equipmentId"
+          JOIN public."Users" u ON u.id = eu."userId"
+          WHERE u.id = :userId;
+
+          `,
+        {
+          // Replace projectId
+          replacements:  {userId} ,
+        }
+      );
+      return benches
+    }
+
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });

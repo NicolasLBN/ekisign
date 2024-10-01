@@ -32,5 +32,13 @@ async function getAllRoomsByProjectId(projectId: number){
   return await fetchApi(apiUrl + 'roomsByProjectId/' + projectId)
 }
 
+async function getAllBenchesByRooms(roomId: number){
+  return await fetchApi(apiUrl + 'benchesByRoomId/' + roomId)
+}
 
-export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId }
+async function getArborescence(){
+  return await fetchApi(apiUrl + 'arborescence/')
+}
+
+
+export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId, getAllBenchesByRooms, getArborescence }
