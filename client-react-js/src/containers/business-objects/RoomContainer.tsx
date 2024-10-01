@@ -11,6 +11,7 @@ import RoomComponent, { RoomComponentProps } from '../../components/business-obj
                 name: room.name,
                 createdAt: room.createdAt,
                 updatedAt: room.updatedAt,
+                projects: room.projects
             }}/>
       </div>
     );
