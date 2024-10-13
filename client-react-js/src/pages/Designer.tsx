@@ -4,25 +4,28 @@ import ProjectContainer from "../containers/business-objects/ProjectContainer";
 import { getArborescence } from "../services/api";
 import RoomContainer from "../containers/business-objects/RoomContainer";
 import RoomComponent from "../components/business-objects/RoomComponent";
+import { resolve } from "path";
+import BenchComponent from "../components/business-objects/BenchComponent";
 
 export default function Designer() {
 
     let [arborescence, setArborescence] = useState<RoomComponent[]>([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 let response = await getArborescence()
                 setArborescence(response)
-                
+
+
               } catch (error) {
                   console.error('Error fetching benches:', error);
               }
-            
         };
-
         fetchData();
     }, []);
+
 
     return (
         <div>
@@ -34,7 +37,7 @@ export default function Designer() {
                         name: room.name,
                         createdAt: room.createdAt,
                         updatedAt: room.updatedAt,
-                        projects: room.projects
+                        projects: room.projects,
                     }}/>
                 ))}
             </div>

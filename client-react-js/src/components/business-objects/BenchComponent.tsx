@@ -1,12 +1,16 @@
 import React from 'react';
 
 import '../../styles/BenchComponent.css'
+import UserContainer from '../../containers/business-objects/UserContainer';
+import EquipmentComponent from './EquipmentComponent';
+import EquipmentContainer from '../../containers/business-objects/EquipmentContainer';
 
 type BenchComponent = {
   id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
+  equipments: any,
 };
 
 export interface BenchComponentProps {
@@ -15,14 +19,24 @@ export interface BenchComponentProps {
 
 const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
 
-    return (
-        <div className="projectContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
-        <h1>Projet: {bench.name}</h1>
-        <p>Créé le: {new Date(bench.createdAt).toLocaleString()}</p>
-        <p>Dernière mise à jour: {new Date(bench.updatedAt).toLocaleString()}</p>
-        
-        </div>
-    );
+  return (
+    <div className="BenchContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
+      <h1>Bench: {bench.name}</h1>
+      {bench.equipments.map((equipment: {
+        users: any;
+        updatedAt: string;
+        createdAt: string; id: any; name: any;
+      }) => (
+        <EquipmentContainer equipment={{
+          id: equipment.id,
+          name: equipment.name,
+          createdAt: equipment.createdAt,
+          updatedAt: equipment.updatedAt,
+          users: equipment.users
+        }} />
+      ))}
+    </div>
+  );
 };
 
 export default BenchComponent;

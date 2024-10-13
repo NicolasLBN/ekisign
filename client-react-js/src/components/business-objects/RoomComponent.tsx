@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Project from './ProjectComponent';
 import '../../styles/RoomComponent.css'
-import ProjectContainer from '../../containers/business-objects/ProjectContainer';
+import BenchContainer from '../../containers/business-objects/BenchContainer';
 
 type RoomComponent = {
   id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
-  projects: any
+  projects: any;
+  benches: any
 };
 
 export interface RoomComponentProps {
@@ -20,19 +20,15 @@ const RoomComponent: React.FC<RoomComponentProps> = ({ room }) => {
   return (
     <div className='roomContainer' style={{ marginTop: '20px', padding: '10px', border: '1px solid red' }}>
       <h2>{room.name}</h2>
-      {room.projects.map((proj: {
-        users: any[];
-        updatedAt: string;
-        createdAt: string;
-        name: string; id: number
-      }) => (
-        <ProjectContainer key={proj.id} project={{
-          id: proj.id,
-          name: proj.name,
-          createdAt: proj.createdAt,
-          updatedAt: proj.updatedAt,
-          users: proj.users
-        }} />
+      {room.benches.map((bench: any) => (
+        <BenchContainer key={bench.id} bench={{
+          id: bench.id,
+          name: bench.name,
+          createdAt: bench.createdAt,
+          updatedAt: bench.updatedAt,
+          equipments: bench.equipments
+        }}
+        />
       ))}
     </div>
   );

@@ -114,7 +114,7 @@
           <mxGeometry x="-785" y="1605" width="90" height="90" as="geometry" />
         </mxCell>
         <mxCell id="64vca7mQy0O2EGLLcNTx-35" value="&lt;font color=&quot;#ff3333&quot; style=&quot;font-size: 24px;&quot;&gt;MOCK UP&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-570" y="1260" width="140" height="40" as="geometry" />
+          <mxGeometry x="-550" y="1260" width="140" height="40" as="geometry" />
         </mxCell>
         <mxCell id="64vca7mQy0O2EGLLcNTx-36" value="&lt;font color=&quot;#ff3333&quot; style=&quot;font-size: 24px;&quot;&gt;USER STORIES&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="-570" y="2020" width="200" height="40" as="geometry" />
@@ -210,11 +210,26 @@
         <mxCell id="64vca7mQy0O2EGLLcNTx-94" value="Fetch" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="-185" y="2700" width="50" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="64vca7mQy0O2EGLLcNTx-95" value="&lt;font style=&quot;font-size: 24px;&quot; color=&quot;#ff3333&quot;&gt;REACT ARCHITECTURE&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-590" y="2595" width="300" height="40" as="geometry" />
+        <mxCell id="64vca7mQy0O2EGLLcNTx-95" value="&lt;font style=&quot;font-size: 24px;&quot; color=&quot;#ff3333&quot;&gt;TECHNICAL ARCHITECTURE&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-615" y="2595" width="350" height="40" as="geometry" />
         </mxCell>
         <mxCell id="64vca7mQy0O2EGLLcNTx-96" value="&lt;font color=&quot;#ff3333&quot; style=&quot;font-size: 72px;&quot;&gt;EKISIGN&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="-10" y="-110" width="320" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="64vca7mQy0O2EGLLcNTx-97" value="Rooms" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-605" y="3050" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="64vca7mQy0O2EGLLcNTx-98" value="Projects" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-526.5" y="3050" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="64vca7mQy0O2EGLLcNTx-99" value="Benches" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-345" y="3050" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="64vca7mQy0O2EGLLcNTx-100" value="Equipments" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-245" y="3050" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="64vca7mQy0O2EGLLcNTx-101" value="Users" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-425" y="3050" width="50" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

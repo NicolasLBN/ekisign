@@ -11,8 +11,6 @@ import UserComponent, { UserComponentProps } from '../../components/business-obj
                 name: user.name,
                 createdAt: user.createdAt,
                 updatedAt: user.updatedAt,
-                benches: user.benches,
-                equipments: user.equipments
             }}/>
       </div>
     );

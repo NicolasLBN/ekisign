@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
-import ProjectContainer from '../../containers/business-objects/ProjectContainer';
+import React from 'react';
 
 type UserComponent = {
   id: number;
   name: string;
   createdAt: string;
   updatedAt: string;
-  benches: any
-  equipments: any
 };
 
 export interface UserComponentProps {
@@ -17,7 +14,7 @@ export interface UserComponentProps {
   const RoomComponent: React.FC<UserComponentProps> = ({ user }) => {
 
     return (
-      <div className='roomContainer' style={{ marginTop: '20px', padding: '10px', border: '1px solid red' }}>
+      <div className='roomContainer' style={{ marginTop: '20px', padding: '10px', border: '1px solid green' }}>
         {user.name}
       </div>
     );

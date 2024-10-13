@@ -21,14 +21,13 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ project }) => {
         <div className="projectContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
         <h1>Projet: {project.name}</h1>
         {project.users.map(user => (
-        <UserContainer user={{
+        <UserContainer key={user.id} user={{
           id: user.id,
           name: user.name,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
-          benches: user.benches,
-          equipments: user.equipments
         }}/>
+        
         ))}    
         </div>
     );
