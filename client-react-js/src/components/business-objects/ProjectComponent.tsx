@@ -26,6 +26,7 @@ const ProjectComponent: React.FC<ProjectComponentProps> = ({ project }) => {
           name: user.name,
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
+          removeUser: () => {}
         }}/>
         
         ))}    

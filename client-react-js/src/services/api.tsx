@@ -24,6 +24,23 @@ async function getAllRooms(){
   return await fetchApi(apiUrl + 'rooms')
 }
 
+async function removeUserFromBench(userId: number) {
+  try {
+    const response = await fetch(`${apiUrl}benches/removeUser/${userId}`, {
+      method: 'DELETE',
+    });
+    
+    if (!response.ok) {
+      throw new Error('Erreur lors de la suppression de l\'utilisateur : ' + response.status);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Erreur:', error);
+  }
+}
+
 async function getAllProjects(){
   return await fetchApi(apiUrl + 'projects')
 }
@@ -41,4 +58,4 @@ async function getArborescence(){
 }
 
 
-export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId, getAllBenchesByRooms, getArborescence }
+export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId, getAllBenchesByRooms, getArborescence, removeUserFromBench }

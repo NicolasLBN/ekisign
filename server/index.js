@@ -53,7 +53,7 @@ sequelize.sync()
 
 // Function to create generic CRUD routes
 const createCrudRoutes = (modelName, Model) => {
-const routeBase = `/${modelName.toLowerCase()}`;
+  const routeBase = `/${modelName.toLowerCase()}`;
 
   // Get all records
   app.get(`${routeBase}`, async (req, res) => {
@@ -68,7 +68,7 @@ const routeBase = `/${modelName.toLowerCase()}`;
   // Get a single record by ID
   app.get(`${routeBase}/:id`, async (req, res) => {
     try {
-      const record  = await Model.findByPk(req.params.id);
+      const record = await Model.findByPk(req.params.id);
       if (record) {
         res.json(record);
       } else {
@@ -90,22 +90,22 @@ const routeBase = `/${modelName.toLowerCase()}`;
     }
   });
 
-    // Update a record by ID
-    app.put(`${routeBase}/:id`, async (req, res) => {
-      try {
-        const [updated] = await Model.update(req.body, {
-          where: { id: req.params.id }
-        });
-        if (updated) {
-          const updatedRecord = await Model.findByPk(req.params.id);
-          res.json(updatedRecord);
-        } else {
-          res.status(404).json({ error: `${modelName} not found` });
-        }
-      } catch (err) {
-        res.status(500).json({ error: `Failed to update ${modelName}` });
+  // Update a record by ID
+  app.put(`${routeBase}/:id`, async (req, res) => {
+    try {
+      const [updated] = await Model.update(req.body, {
+        where: { id: req.params.id }
+      });
+      if (updated) {
+        const updatedRecord = await Model.findByPk(req.params.id);
+        res.json(updatedRecord);
+      } else {
+        res.status(404).json({ error: `${modelName} not found` });
       }
-    });
+    } catch (err) {
+      res.status(500).json({ error: `Failed to update ${modelName}` });
+    }
+  });
 
   // Delete a record by ID
   app.delete(`${routeBase}/:id`, async (req, res) => {
@@ -145,14 +145,14 @@ object.forEach(modelName => {
   createCrudRoutes(modelName, models[modelName]);
 });
 
-  // Get roomsByProjectId
-  app.get(`/roomsByProjectId/:id`, async (req, res) => {
-    try {
-      const projectId = req.params.id;
+// Get roomsByProjectId
+app.get(`/roomsByProjectId/:id`, async (req, res) => {
+  try {
+    const projectId = req.params.id;
 
     // Get all rooms associate to projectId
     const [rooms] = await sequelize.query(
-      
+
       `SELECT r.*
       FROM public."Rooms" r
       JOIN public."RoomProjects" rp ON r.id = rp."roomId"
@@ -161,7 +161,7 @@ object.forEach(modelName => {
 
       {
         // Replace projectId
-        replacements:  {projectId} ,
+        replacements: { projectId },
       }
     );
 
@@ -172,9 +172,9 @@ object.forEach(modelName => {
       res.status(404).json({ error: `No rooms found for this project` });
     }
   } catch (err) {
-      res.status(500).json({ error: `Failed to retrieve RoomProject` });
-    }
-  });
+    res.status(500).json({ error: `Failed to retrieve RoomProject` });
+  }
+});
 
 /**
  * GET /arborescence - Retrieves a tree structure of rooms, projects, users, benches, and equipment.
@@ -215,108 +215,126 @@ object.forEach(modelName => {
  *   }
  * ]
  */    app.get(`/arborescence`, async (req, res) => {
-      try {
-        let rooms = await Room.findAll()
+  try {
+    let rooms = await Room.findAll()
 
-        let updatedRooms = await Promise.all(
-          rooms.map(async (room) => {
-            let projects = await getProjectsByRoomId(room.id);
-            projects = await Promise.all(
-              projects.map(async(project) => {
-                let users = await getUsersByProjectId(project.id)
-                users = await Promise.all(
-                  users.map(async(user) => {
-                    let benches = await getBenchesByUserId(user.id)
-                    let equipments = await getEquipmentByUserId(user.id)
-                    return {...user, benches, equipments}
-                  })
-                )
-                return { ...project, users };
+    let updatedRooms = await Promise.all(
+      rooms.map(async (room) => {
+        let projects = await getProjectsByRoomId(room.id);
+        projects = await Promise.all(
+          projects.map(async (project) => {
+            let users = await getUsersByProjectId(project.id)
+            users = await Promise.all(
+              users.map(async (user) => {
+                let benches = await getBenchesByUserId(user.id)
+                let equipments = await getEquipmentByUserId(user.id)
+                return { ...user, benches, equipments }
               })
             )
-            return { ...room.dataValues, projects };
+            return { ...project, users };
           })
         )
+        return { ...room.dataValues, projects };
+      })
+    )
 
-        res.json(updatedRooms);
+    res.json(updatedRooms);
 
-    } catch (err) {
-        res.status(500).json({ error: `Failed to retrieve arbo` });
-      }
-    });
+  } catch (err) {
+    res.status(500).json({ error: `Failed to retrieve arbo` });
+  }
+});
 
-    async function getProjectsByRoomId(roomId) {
-      const [projects] = await sequelize.query(
-      
-        `SELECT p.*
+async function getProjectsByRoomId(roomId) {
+  const [projects] = await sequelize.query(
+
+    `SELECT p.*
           FROM public."Projects" p
           JOIN public."RoomProjects" rp ON p.id = rp."projectId"
           JOIN public."Rooms" r ON r.id = rp."roomId"
           WHERE r.id = :roomId;`,
-  
-        {
-          // Replace projectId
-          replacements:  {roomId} ,
-        }
-      );
-      return projects
-    }
 
-    
-    async function getUsersByProjectId(projectId) {
-      const [users] = await sequelize.query(
-      
-        `SELECT u.*
+    {
+      // Replace projectId
+      replacements: { roomId },
+    }
+  );
+  return projects
+}
+
+
+async function getUsersByProjectId(projectId) {
+  const [users] = await sequelize.query(
+
+    `SELECT u.*
           FROM public."Users" u
           JOIN public."ProjectUsers" pu ON u.id = pu."userId"
           JOIN public."Projects" p ON p.id = pu."projectId"
           WHERE p.id = :projectId;
           `,
-        {
-          // Replace projectId
-          replacements:  {projectId} ,
-        }
-      );
-      return users
+    {
+      // Replace projectId
+      replacements: { projectId },
     }
+  );
+  return users
+}
 
-        
-    async function getBenchesByUserId(userId) {
-      const [benches] = await sequelize.query(
-      
-        `SELECT b.*
+
+async function getBenchesByUserId(userId) {
+  const [benches] = await sequelize.query(
+
+    `SELECT b.*
           FROM public."Benches" b
           JOIN public."UserBenches" ub ON b.id = ub."benchId"
           JOIN public."Users" u ON u.id = ub."userId"
           WHERE u.id = :userId;
 
           `,
-        {
-          // Replace projectId
-          replacements:  {userId} ,
-        }
-      );
-      return benches
+    {
+      // Replace projectId
+      replacements: { userId },
     }
+  );
+  return benches
+}
 
 
-    async function getEquipmentByUserId(userId) {
-      const [benches] = await sequelize.query(
-      
-        `SELECT e.*
+async function getEquipmentByUserId(userId) {
+  const [benches] = await sequelize.query(
+
+    `SELECT e.*
           FROM public."Equipment" e
           JOIN public."EquipmentUsers" eu ON e.id = eu."equipmentId"
           JOIN public."Users" u ON u.id = eu."userId"
           WHERE u.id = :userId;
-
           `,
-        {
-          // Replace projectId
-          replacements:  {userId} ,
-        }
-      );
-      return benches
+    {
+      // Replace projectId
+      replacements: { userId },
     }
+  );
+  return benches
+}
+
+app.delete(`/benches/removeUser/:userId`, async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const deleted = await UserBench.destroy({
+      where: { userId: userId }
+    });
+
+    if (deleted) {
+      res.status(200).json({ message: `User with ID ${userId} removed from benches successfully` });
+    } else {
+      res.status(404).json({ error: `User with ID ${userId} not found in benches` });
+    }
+  } catch (err) {
+    console.error('Error removing user from benches:', err);
+    res.status(500).json({ error: `Failed to remove user from benches` });
+  }
+});
 
 
 app.listen(port, () => {

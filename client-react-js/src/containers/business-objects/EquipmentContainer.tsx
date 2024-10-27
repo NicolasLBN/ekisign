@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import EquipmentComponent, { EquipmentComponentProps } from '../../components/business-objects/EquipmentComponent';
-  
-  const BenchContainer: React.FC<EquipmentComponentProps> = ({equipment}) => {
-    
-    return (
-      <div>
-        <EquipmentComponent key={equipment.id} equipment={{
-            id: equipment.id,
-            name: equipment.name,
-            createdAt: equipment.createdAt,
-            updatedAt: equipment.updatedAt,
-            users: equipment.users,
-        }} />
-      
-      </div>
-    );
-  };
-  
-  export default BenchContainer;
+import { removeUserFromBench } from "../..//services/api";
+
+const BenchContainer: React.FC<EquipmentComponentProps> = ({ equipment }) => {
+  const [users, setUsers] = useState(equipment.users);
+
+  useEffect(() => {
+    setUsers(equipment.users);
+  }, [equipment.users]);
+
+
+  function removeUser(userId: number) {
+    console.log('+++REMOVE USERS+++: ', userId)
+    removeUserFromBench(userId)
+    setUsers((prevUsers: any[]) => prevUsers.filter((user: { id: number; }) => user.id !== userId));
+  }
+
+  return (
+    <div>
+      <EquipmentComponent key={equipment.id} equipment={{
+        ...equipment,
+        users: users, // Utiliser l'état mis à jour
+        removeUser: removeUser
+      }} />
+
+    </div>
+  );
+};
+
+export default BenchContainer;

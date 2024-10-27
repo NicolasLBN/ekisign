@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ProjectComponent, { ProjectComponentProps } from '../../components/business-objects/ProjectComponent';
-import { getAllProjects, getAllRoomsByProjectId } from '../../services/api';
   
   const ProjectContainer: React.FC<ProjectComponentProps> = ({project}) => {
 

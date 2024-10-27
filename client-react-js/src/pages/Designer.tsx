@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar"
-import ProjectContainer from "../containers/business-objects/ProjectContainer";
 import { getArborescence } from "../services/api";
 import RoomContainer from "../containers/business-objects/RoomContainer";
 import RoomComponent from "../components/business-objects/RoomComponent";
-import { resolve } from "path";
-import BenchComponent from "../components/business-objects/BenchComponent";
 
 export default function Designer() {
 
@@ -17,8 +14,6 @@ export default function Designer() {
             try {
                 let response = await getArborescence()
                 setArborescence(response)
-
-
               } catch (error) {
                   console.error('Error fetching benches:', error);
               }

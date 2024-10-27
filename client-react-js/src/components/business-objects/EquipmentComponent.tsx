@@ -6,7 +6,8 @@ type EquipmentComponent = {
     name: string;
     createdAt: string;
     updatedAt: string;
-    users: any
+    users: any,
+    removeUser: (userId: number) => void;
 };
 
 export interface EquipmentComponentProps {
@@ -27,6 +28,7 @@ const EquipmentComponent: React.FC<EquipmentComponentProps> = ({ equipment }) =>
                     name: user.name,
                     createdAt: user.createdAt,
                     updatedAt: user.updatedAt,
+                    removeUser: equipment.removeUser
                 }} />
             ))}
         </div>

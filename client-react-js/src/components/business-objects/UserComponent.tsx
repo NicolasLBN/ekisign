@@ -5,6 +5,7 @@ type UserComponent = {
   name: string;
   createdAt: string;
   updatedAt: string;
+  removeUser: (userId: number) => void;
 };
 
 export interface UserComponentProps {

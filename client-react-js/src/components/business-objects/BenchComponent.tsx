@@ -21,6 +21,7 @@ const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
     <div className="BenchContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
       <h1>Bench: {bench.name}</h1>
       {bench.equipments.map((equipment: {
+        removeUser: (userId: number) => void;
         users: any;
         updatedAt: string;
         createdAt: string; id: any; name: any;
@@ -30,7 +31,8 @@ const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
           name: equipment.name,
           createdAt: equipment.createdAt,
           updatedAt: equipment.updatedAt,
-          users: equipment.users
+          users: equipment.users,
+          removeUser: equipment.removeUser
         }} />
       ))}
     </div>
