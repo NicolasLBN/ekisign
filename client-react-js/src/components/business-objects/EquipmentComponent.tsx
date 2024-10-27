@@ -22,7 +22,7 @@ const EquipmentComponent: React.FC<EquipmentComponentProps> = ({ equipment }) =>
                 createdAt: string;
                 updatedAt: string; id: any; name: any;
             }) => (
-                <UserContainer user={{
+                <UserContainer key={user.id} user={{
                     id: user.id,
                     name: user.name,
                     createdAt: user.createdAt,

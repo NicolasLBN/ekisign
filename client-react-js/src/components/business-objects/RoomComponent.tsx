@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../../styles/RoomComponent.css'
 import BenchContainer from '../../containers/business-objects/BenchContainer';
 
@@ -21,7 +21,7 @@ const RoomComponent: React.FC<RoomComponentProps> = ({ room }) => {
     <div className='roomContainer' style={{ marginTop: '20px', padding: '10px', border: '1px solid red' }}>
       <h2>{room.name}</h2>
       {room.benches.map((bench: any) => (
-        <BenchContainer key={bench.id} bench={{
+        <BenchContainer key={`${bench.id}-${bench.createdAt}`} bench={{
           id: bench.id,
           name: bench.name,
           createdAt: bench.createdAt,

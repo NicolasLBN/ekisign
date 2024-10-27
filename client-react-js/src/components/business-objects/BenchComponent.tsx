@@ -1,8 +1,6 @@
 import React from 'react';
 
 import '../../styles/BenchComponent.css'
-import UserContainer from '../../containers/business-objects/UserContainer';
-import EquipmentComponent from './EquipmentComponent';
 import EquipmentContainer from '../../containers/business-objects/EquipmentContainer';
 
 type BenchComponent = {
@@ -27,7 +25,7 @@ const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
         updatedAt: string;
         createdAt: string; id: any; name: any;
       }) => (
-        <EquipmentContainer equipment={{
+        <EquipmentContainer key={bench.id} equipment={{
           id: equipment.id,
           name: equipment.name,
           createdAt: equipment.createdAt,

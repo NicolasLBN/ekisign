@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import ProjectComponent from '../../components/business-objects/ProjectComponent';
-import { getAllProjects } from '../../services/api';
+import React from 'react';
 import BenchComponent, { BenchComponentProps } from '../../components/business-objects/BenchComponent';
   
   const BenchContainer: React.FC<BenchComponentProps> = ({bench}) => {

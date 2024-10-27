@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import BenchComponent, { BenchComponentProps } from '../../components/business-objects/BenchComponent';
+import React from 'react';
 import EquipmentComponent, { EquipmentComponentProps } from '../../components/business-objects/EquipmentComponent';
   
   const BenchContainer: React.FC<EquipmentComponentProps> = ({equipment}) => {
