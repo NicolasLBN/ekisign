@@ -4,7 +4,7 @@ import UserComponent, { UserComponentProps } from '../../components/business-obj
   const UserContainer: React.FC<UserComponentProps> = ({ user }) => {
 
     return (
-      <div className="userContainer" onClick={() => user.removeUser(user.id)}>
+      <div className="userContainer" >
         <UserComponent user={{
                 id: user.id,
                 name: user.name,

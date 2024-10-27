@@ -1,0 +1,19 @@
+.equipment {
+    padding: 10px;
+    border: 1px solid red
+}
+
+.equipment-name {
+    font-size: 24px;
+}
+
+.equipment-row {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+    justify-content: center;
+}
+
+.equipment img {
+    cursor: pointer;
+}

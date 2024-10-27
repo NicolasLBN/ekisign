@@ -16,12 +16,17 @@ const BenchContainer: React.FC<EquipmentComponentProps> = ({ equipment }) => {
     setUsers((prevUsers: any[]) => prevUsers.filter((user: { id: number; }) => user.id !== userId));
   }
 
+  function addUser(userId: number) {
+    console.log('+++ADD USERS+++: ', userId)
+  }
+
   return (
     <div>
       <EquipmentComponent key={equipment.id} equipment={{
         ...equipment,
         users: users, // Utiliser l'état mis à jour
-        removeUser: removeUser
+        removeUser: removeUser,
+        addUser: addUser
       }} />
 
     </div>

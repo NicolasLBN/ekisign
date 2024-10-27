@@ -1,4 +1,6 @@
 import React from 'react';
+import '../../styles/UserComponent.css'
+import trash from '../../images/delete.png'
 
 type UserComponent = {
   id: number;
@@ -15,8 +17,9 @@ export interface UserComponentProps {
   const RoomComponent: React.FC<UserComponentProps> = ({ user }) => {
 
     return (
-      <div className='roomContainer' style={{ marginTop: '20px', padding: '10px', border: '1px solid green' }}>
-        {user.name}
+      <div className='user'>
+        <div>{user.name}</div>
+        <img onClick={() => user.removeUser(user.id)} src={trash} height={20} width={20}/>
       </div>
     );
   };
