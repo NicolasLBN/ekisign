@@ -10,7 +10,8 @@ import BenchComponent, { BenchComponentProps } from '../../components/business-o
             name: bench.name,
             createdAt: bench.createdAt,
             updatedAt: bench.updatedAt,
-            equipments: bench.equipments
+            equipments: bench.equipments,
+            roomId: bench.roomId
         }} />
       
       </div>

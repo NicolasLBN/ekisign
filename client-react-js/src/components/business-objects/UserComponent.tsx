@@ -11,6 +11,7 @@ type UserComponent = {
 };
 
 export interface UserComponentProps {
+    [x: string]: any;
     user: UserComponent;
   }
   

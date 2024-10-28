@@ -9,6 +9,7 @@ type BenchComponent = {
   createdAt: string;
   updatedAt: string;
   equipments: any,
+  roomId: number
 };
 
 export interface BenchComponentProps {
@@ -21,6 +22,7 @@ const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
     <div className="BenchContainer" style={{ marginTop: '20px', padding: '10px', border: '1px solid blue' }}>
       <h1>Bench: {bench.name}</h1>
       {bench.equipments.map((equipment: {
+        roomId: number;
         addUser: (userId: number) => void;
         removeUser: (userId: number) => void;
         users: any;
@@ -33,8 +35,10 @@ const BenchComponent: React.FC<BenchComponentProps> = ({ bench }) => {
           createdAt: equipment.createdAt,
           updatedAt: equipment.updatedAt,
           users: equipment.users,
+          usersInRoom: [],
           removeUser: equipment.removeUser,
-          addUser: equipment.addUser
+          addUser: equipment.addUser,
+          roomId: bench.roomId
         }} />
       ))}
     </div>

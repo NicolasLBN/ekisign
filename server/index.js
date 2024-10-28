@@ -176,6 +176,19 @@ app.get(`/roomsByProjectId/:id`, async (req, res) => {
   }
 });
 
+app.get(`/usersByRoomId/:id`, async (req, res) => {
+  try {
+    const roomId = req.params.id;
+    let users = await getUsersByRoomId(roomId)
+    res.json(users);
+
+  } catch (err) {
+    res.status(500).json({ error: `Failed to retrieve users` });
+  }
+});
+
+
+
 /**
  * GET /arborescence - Retrieves a tree structure of rooms, projects, users, benches, and equipment.
  * 
@@ -317,6 +330,25 @@ async function getEquipmentByUserId(userId) {
   return benches
 }
 
+async function getUsersByRoomId(roomId) {
+  const [users] = await sequelize.query(
+
+    `SELECT DISTINCT u.*
+      FROM "Users" u
+      JOIN "ProjectUsers" pu ON u.id = pu."userId"
+      JOIN "Projects" p ON pu."projectId" = p.id
+      JOIN "RoomProjects" rp ON p."id" = rp."projectId"
+      JOIN "Rooms" r ON rp."roomId" = r.id
+      WHERE r.id = :roomId;
+          `,
+    {
+      // Replace projectId
+      replacements: { roomId },
+    }
+  );
+  return users
+}
+
 app.delete(`/benches/removeUser/:userId`, async (req, res) => {
   const userId = req.params.userId;
 
@@ -336,7 +368,15 @@ app.delete(`/benches/removeUser/:userId`, async (req, res) => {
   }
 });
 
-
+/*
+SELECT DISTINCT u.*
+FROM "Users" u
+JOIN "ProjectUsers" pu ON u.id = pu."userId"
+JOIN "Projects" p ON pu."projectId" = p.id
+JOIN "RoomProjects" rp ON p."id" = rp."projectId"
+JOIN "Rooms" r ON rp."roomId" = r.id
+WHERE r.id = 1
+*/
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });

@@ -53,9 +53,15 @@ async function getAllBenchesByRooms(roomId: number){
   return await fetchApi(apiUrl + 'benchesByRoomId/' + roomId)
 }
 
+async function getAllUsersByRoomId(roomId: number){
+  return await fetchApi(apiUrl + 'usersByRoomId/' + roomId)
+}
+
 async function getArborescence(){
   return await fetchApi(apiUrl + 'arborescence/')
 }
 
 
-export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId, getAllBenchesByRooms, getArborescence, removeUserFromBench }
+export { getAllBenches, getAllRooms, getAllProjects, getAllRoomsByProjectId, getAllBenchesByRooms, getArborescence, removeUserFromBench,
+  getAllUsersByRoomId
+ }

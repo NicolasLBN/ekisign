@@ -26,7 +26,8 @@ const RoomComponent: React.FC<RoomComponentProps> = ({ room }) => {
           name: bench.name,
           createdAt: bench.createdAt,
           updatedAt: bench.updatedAt,
-          equipments: bench.equipments
+          equipments: bench.equipments,
+          roomId: room.id
         }}
         />
       ))}

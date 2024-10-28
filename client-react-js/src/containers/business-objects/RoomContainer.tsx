@@ -54,7 +54,6 @@ const RoomContainer: React.FC<any> = ({ room }) => {
     }, []);
 
     setBenches(mergedBenches);
-    console.log(mergedBenches);
   }, []);
 
   return (
